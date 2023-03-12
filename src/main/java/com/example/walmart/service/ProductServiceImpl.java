@@ -1,50 +1,52 @@
 package com.example.walmart.service;
 
 import com.example.walmart.model.Product;
+import com.example.walmart.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    Map<Integer,Product> productMap = new HashMap<>();
+    @Autowired
+    ProductRepository productRepository;
 
     @Override
     public void saveProductDetails(Product product) throws Exception {
-        if(productMap.containsKey(product.getProductId())){
+        if(productRepository.existsById(product.getProductId())){
             throw new Exception("This product Id already exists");
         }
-        productMap.put(product.getProductId(),product);
+        productRepository.save(product);
     }
 
     @Override
     public Iterable<Product> getAllProducts() {
-        return productMap.values();
+        return productRepository.findAll();
     }
 
     @Override
     public void updateProductDetails(Product product) throws Exception {
-        if(!productMap.containsKey(product.getProductId())){
+        if(!productRepository.existsById(product.getProductId())){
             throw new Exception("Product Id doesn't exist");
         }
-        productMap.put(product.getProductId(),product);
+        productRepository.save(product);
     }
 
     @Override
     public void deleteProductDetails(int productId) throws Exception {
-        if(!productMap.containsKey(productId)){
+        if(!productRepository.existsById(productId)){
             throw new Exception("Product Id doesn't exist");
         }
-        productMap.remove(productId);
+        productRepository.deleteById(productId);
     }
 
     @Override
-    public Product getSingleProductDetails(int productId) throws Exception {
-        if(!productMap.containsKey(productId)){
+    public Optional<Product> getSingleProductDetails(int productId) throws Exception {
+        if(!productRepository.existsById(productId)){
             throw new Exception("Product Id doesn't exist");
         }
-        return productMap.get(productId);
+        return productRepository.findById(productId);
     }
 }

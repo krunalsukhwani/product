@@ -2,6 +2,8 @@ package com.example.walmart.service;
 
 import com.example.walmart.model.Product;
 
+import java.util.Optional;
+
 public interface ProductService {
 
     void saveProductDetails(Product product) throws Exception;
@@ -12,5 +14,5 @@ public interface ProductService {
 
     void deleteProductDetails(int productId) throws Exception;
 
-    Product getSingleProductDetails(int productId) throws Exception;
+    Optional<Product> getSingleProductDetails(int productId) throws Exception;
 }

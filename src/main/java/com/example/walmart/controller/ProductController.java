@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 public class ProductController {
 
@@ -40,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/single/{productId}")
-    public Product getSingleProductDetails(@PathVariable("productId") int productId) throws Exception{
+    public Optional<Product> getSingleProductDetails(@PathVariable("productId") int productId) throws Exception{
         return productService.getSingleProductDetails(productId);
     }
 }
